@@ -9,6 +9,7 @@ import { MovieListComponent } from './areas/movies/pages/movie-list/movie-list.c
 import { DashboardComponent } from './areas/dashboard/pages/dashboard/dashboard.component';
 import { HeaderComponent } from './areas/app/header/header.component';
 import { PageNotFoundComponent } from './areas/404/pages/page-not-found/page-not-found.component';
+import { AboutComponent } from './areas/about/pages/about/about.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { PageNotFoundComponent } from './areas/404/pages/page-not-found/page-not
     MovieListComponent,
     DashboardComponent,
     HeaderComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
