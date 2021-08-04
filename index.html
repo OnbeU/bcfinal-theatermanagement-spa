@@ -4,12 +4,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-
-    <title>Hello World!</title>
+    <title>Let's Hear from the Backend</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 </head>
 
 <body>
-    Hello World!
+    <main>
+        <h1>Movies</h1>
+        <table id="movies" border='1'>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>title</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+
+    <script>
+        (async function () {
+            const movies = await (await fetch('/api/movies')).json();
+
+            var trHTML = '';
+
+            movies.forEach(movie => {
+                trHTML += '<tr><td>' + movie.id + '</td><td>' + movie.title + '</td></tr>';
+            });
+
+            $('#movies').append(trHTML);
+        }())
+    </script>
 </body>
 
 </html>
