@@ -1,0 +1,23 @@
+{
+  "name": "project",
+  "version": "0.0.0",
+  "description": "What the theater management front end will look like at the end of bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnbeU/bcfinal-theatermanagement-spa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OnbeU/bcfinal-theatermanagement-spa/issues"
+  },
+  "homepage": "https://github.com/OnbeU/bcfinal-theatermanagement-spa#readme",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "http-server": "^0.12.3"
+  }
+}
