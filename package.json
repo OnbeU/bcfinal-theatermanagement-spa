@@ -1,0 +1,14 @@
+{
+  "name": "project",
+  "version": "0.0.0",
+  "description": "What the theater management front end will look like at the end of bootcamp",
+  "scripts": {
+    "start": "http-server .",
+    "build": "copyfiles index.html dist/project/.",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "http-server": "^0.12.3"
+  }
+}
