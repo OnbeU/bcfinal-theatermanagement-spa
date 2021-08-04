@@ -1,6 +1,7 @@
 {
   "name": "project",
   "version": "0.0.0",
+  "description": "What the theater management front end will look like at the end of bootcamp",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +9,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "author": "Drive-Ins Inc.",
   "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@angular/animations": "~12.1.0",
     "@angular/common": "~12.1.0",
