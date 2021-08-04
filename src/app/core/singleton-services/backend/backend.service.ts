@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BackendService {
-  private apiBaseUrl = `${environment}/apiBaseUrl`;
+  private apiBaseUrl = `${environment.apiBaseUrl}`;
 
   constructor(
     private httpClient: HttpClient) {
