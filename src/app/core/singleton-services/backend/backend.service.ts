@@ -1,21 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 import { Movie } from './movie';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  private apiBaseUrl = `${environment.apiBaseUrl}`;
+  readonly baseUrl: string;
 
   constructor(
-    private httpClient: HttpClient) {
+    private httpClient: HttpClient,
+    @Inject('BACKEND_BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
   }
 
   getMovies(): Observable<Movie[]> {
-    const moviesUrl = `${this.apiBaseUrl}/movies`;
+    const moviesUrl = `${this.baseUrl}/movies`;
     return this.httpClient.get<Movie[]>(moviesUrl);
   }
 
