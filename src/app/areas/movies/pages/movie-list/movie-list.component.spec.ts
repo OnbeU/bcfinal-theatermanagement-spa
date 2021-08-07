@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MovieListComponent } from './movie-list.component';
+import { BackendService } from 'src/app/core/singleton-services/backend/backend.service';
 
 describe('MovieListComponent', () => {
   let component: MovieListComponent;
@@ -13,6 +14,9 @@ describe('MovieListComponent', () => {
       imports: [
         RouterTestingModule,
         HttpClientTestingModule
+      ],
+      providers: [
+        { provide: 'BACKEND_BASE_URL', useValue: '/api' }
       ],
       declarations: [ MovieListComponent ]
     })
