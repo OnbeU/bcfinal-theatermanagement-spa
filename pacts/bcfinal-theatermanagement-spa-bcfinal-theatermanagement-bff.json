@@ -1,0 +1,34 @@
+{
+  "consumer": {
+    "name": "bcfinal-theatermanagement-spa"
+  },
+  "provider": {
+    "name": "bcfinal-theatermanagement-bff"
+  },
+  "interactions": [
+    {
+      "description": "a request to list the movies",
+      "providerState": "There are no movies",
+      "request": {
+        "method": "GET",
+        "path": "/api/movies"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "emptyMovies": [
+
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

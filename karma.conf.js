@@ -1,17 +1,38 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+var path = require("path")
 
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular', 'pact'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('@pact-foundation/karma-pact'),
     ],
+
+    // Pact Providers
+    pact: [
+      {
+        port: 1234,
+        consumer: "bcfinal-theatermanagement-spa",
+        provider: "bcfinal-theatermanagement-bff",
+        logLevel: "DEBUG",
+        // log: path.resolve(process.cwd(), "logs", "pact.log"),
+        dir: path.resolve(process.cwd(), "pacts"),
+      },
+    ],
+
+    proxies: {'/api':'http://localhost:1234/hello-service/api'},
+
+    // proxies: {
+    //   '/api/': 'http://127.0.0.1:1234/api/'
+    // },
+
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
