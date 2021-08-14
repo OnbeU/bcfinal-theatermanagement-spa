@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../../core/singleton-services/config/config.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -7,12 +8,12 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  public apiBaseUrl = `${environment.apiBaseUrl}`;
-  public production = `${environment.production}`;
+  public apiBaseUrl!: string;
+  public production: string = `${environment.production}`;
 
-  constructor() { }
+  constructor(private configService: ConfigService) { }
 
   ngOnInit(): void {
+    this.apiBaseUrl = this.configService.apiBaseUrl;
   }
-
 }

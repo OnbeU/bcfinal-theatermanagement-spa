@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { mockProvider } from '@ngneat/spectator';
 
 import { BackendService } from './backend.service';
+import { ConfigService } from '../config/config.service';
 
 describe('BackendService', () => {
   let service: BackendService;
@@ -10,7 +12,9 @@ describe('BackendService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: 'BACKEND_BASE_URL', useValue: '/api' }
+        mockProvider(ConfigService, {
+          apiBaseUrl: '/api'
+        })
       ]
     });
     service = TestBed.inject(BackendService);

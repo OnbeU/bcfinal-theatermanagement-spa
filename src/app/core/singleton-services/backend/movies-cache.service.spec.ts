@@ -10,9 +10,6 @@ describe('MoviesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [
-        { provide: 'BACKEND_BASE_URL', useValue: '/api' }
-      ]
     });
     service = TestBed.inject(MoviesCacheService);
   });
