@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  public apiBaseUrl = `${environment.apiBaseUrl}`;
-  public production = `${environment.production}`;
+  public apiBaseUrl: string = `${environment.apiBaseUrl}`;
+  public production: string = `${environment.production}`;
 
   constructor() { }
 

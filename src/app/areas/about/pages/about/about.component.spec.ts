@@ -22,4 +22,9 @@ describe('AboutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have appropriate default values', () => {
+    expect(component.apiBaseUrl).toBe('/api');
+    expect(component.production).toBe('false');
+  });
 });
