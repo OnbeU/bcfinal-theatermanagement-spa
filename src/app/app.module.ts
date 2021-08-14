@@ -12,6 +12,12 @@ import { DashboardComponent } from './areas/dashboard/pages/dashboard/dashboard.
 import { HeaderComponent } from './areas/app/header/header.component';
 import { MovieListComponent } from './areas/movies/pages/movie-list/movie-list.component';
 import { PageNotFoundComponent } from './areas/404/pages/page-not-found/page-not-found.component';
+import { ConfigService } from './core/singleton-services/config/config.service';
+import { APP_INITIALIZER } from '@angular/core';
+
+export const configFactory = (configService: ConfigService) => {
+  return () => configService.loadConfig();
+};
 
 @NgModule({
   declarations: [
@@ -30,6 +36,15 @@ import { PageNotFoundComponent } from './areas/404/pages/page-not-found/page-not
   ],
   providers: [
     AppComponent,
+    {
+      // Loading ConfigService as part of APPINITIALIZER
+      // ensures the application isn't started before the
+      // config file is loaded.
+      provide: APP_INITIALIZER,
+      useFactory: configFactory,
+      deps: [ConfigService],
+      multi: true
+    },
     BackendService,
     { provide: 'BACKEND_BASE_URL', useFactory: () => environment.apiBaseUrl }
   ],
