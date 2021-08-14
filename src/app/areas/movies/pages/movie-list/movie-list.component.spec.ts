@@ -15,9 +15,6 @@ describe('MovieListComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule
       ],
-      providers: [
-        { provide: 'BACKEND_BASE_URL', useValue: '/api' }
-      ],
       declarations: [ MovieListComponent ]
     })
     .compileComponents();

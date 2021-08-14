@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Movie } from './movie';
+import { ConfigService } from './../config/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class BackendService {
 
   constructor(
     private httpClient: HttpClient,
-    @Inject('BACKEND_BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+    private configService: ConfigService) {
+    this.baseUrl = configService.apiBaseUrl;
   }
 
   getMovies(): Observable<Movie[]> {

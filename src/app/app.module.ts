@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { environment } from 'src/environments/environment';
 
 import { AboutComponent } from './areas/about/pages/about/about.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +45,6 @@ export const configFactory = (configService: ConfigService) => {
       multi: true
     },
     BackendService,
-    { provide: 'BACKEND_BASE_URL', useFactory: () => environment.apiBaseUrl }
   ],
   exports: [
     HeaderComponent

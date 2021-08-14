@@ -1,7 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { mockProvider } from '@ngneat/spectator';
 
 import { BackendService } from '../core/singleton-services/backend/backend.service';
+import { ConfigService } from '../core/singleton-services/config/config.service';
 
 describe('BackendService', () => {
   let service: BackendService;
@@ -14,7 +16,9 @@ describe('BackendService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: 'BACKEND_BASE_URL', useValue: 'http://127.0.0.1:1234/api' },
+        mockProvider(ConfigService, {
+          apiBaseUrl: 'http://127.0.0.1:1234/api'
+        }),
         BackendService
       ]
     });
