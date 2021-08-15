@@ -38,7 +38,7 @@ export const configFactory = (configService: ConfigService) => {
     {
       // Loading ConfigService as part of APPINITIALIZER
       // ensures the application isn't started before the
-      // config file is loaded.
+      // config settings are loaded.
       provide: APP_INITIALIZER,
       useFactory: configFactory,
       deps: [ConfigService],
