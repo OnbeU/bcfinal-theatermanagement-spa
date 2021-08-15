@@ -1,6 +1,5 @@
 import { ConfigService } from './../../../../core/singleton-services/config/config.service';
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-about',
@@ -8,12 +7,15 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+  public envName!: string;
+  public production!: boolean;
   public apiBaseUrl!: string;
-  public production: string = `${environment.production}`;
 
   constructor(private configService: ConfigService) { }
 
   ngOnInit(): void {
+    this.envName = this.configService.envName;
+    this.production = this.configService.production;
     this.apiBaseUrl = this.configService.apiBaseUrl;
   }
 }
