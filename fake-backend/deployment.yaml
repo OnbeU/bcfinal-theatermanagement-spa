@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: json-server-fake-api
+  labels:
+    app: json-server-fake-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: json-server-fake-api
+  template:
+    metadata:
+      labels:
+        app: json-server-fake-api
+    spec:
+      containers:
+      - name: json-server-test
+        image: --REGISTRY_LOGIN_SERVER--/fakeapi:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: json-server-db-volume
+          mountPath: /fakeapi-data
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+      volumes:
+      - name: json-server-db-volume
+        projected:
+          sources:
+            - configMap:
+                name: json-server-db-config
+            - configMap:
+                name: json-server-route-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: json-server-fake-api-svc
+  labels:
+     service: json-server-fake-api-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: json-server-fake-api  
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: json-server-fake-api-app-gateway
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - --ROOT_URL--
+    secretName: tls-secret-fake-api
+  rules:
+  - host: --ROOT_URL--
+    http:
+      paths:
+      - path: /*
+        pathType: Prefix
+        backend:
+          service:
+            name: json-server-fake-api-svc
+            port: 
+              number: 80
