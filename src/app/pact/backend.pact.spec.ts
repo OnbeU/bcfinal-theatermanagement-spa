@@ -1,10 +1,6 @@
-import { InjectionToken } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Movie } from '../core/singleton-services/backend/movie';
 import { PactWeb } from '@pact-foundation/pact-web';
-import { Observable } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { mockProvider } from '@ngneat/spectator';
 
 import { BackendService } from '../core/singleton-services/backend/backend.service';
@@ -12,16 +8,15 @@ import { ConfigService } from '../core/singleton-services/config/config.service'
 import { environment } from 'src/environments/environment';
 
 describe('BackendService consumer-defined contracts', () => {
-  if (!environment.singleTestRun)
-  {
+  if (!environment.singleTestRun) {
     it('*** Skipping this test due to multiple test runners. *** This spec uses a global Pact server which cannot be shared by multiple test runners. To run this spec: npm run singletestrun', () => {
       expect(environment.singleTestRun).toBeFalse();
     });
   }
-  else
-  {
+  else {
     let service: BackendService;
     let provider: PactWeb;
+    let originalTimeout: number;
 
     beforeAll((done) => {
       provider = new PactWeb({
@@ -31,7 +26,12 @@ describe('BackendService consumer-defined contracts', () => {
         port: 1234,
         spec: 2
       });
+
+      // Required if run with `singleRun: false`
       provider.removeInteractions().then(done);
+
+      originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000;
     });
 
     beforeEach((done) => {
@@ -66,6 +66,11 @@ describe('BackendService consumer-defined contracts', () => {
         .then(done, done.fail)
     });
 
+    afterAll((done) => {
+      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+      provider.finalize().then(done, done.fail)
+    });
+
     it('should be created (by backend.pact.spec))', (done) => {
       expect(service).toBeTruthy();
       done();
@@ -76,5 +81,15 @@ describe('BackendService consumer-defined contracts', () => {
       done();
     });
 
+    it("has no movies", () => {
+      console.log(`********${provider.mockService.baseUrl}******************************`);
+
+      service.getMovies().subscribe(
+        movies => {
+          expect(movies).toEqual([]);
+          console.log('success!');
+        }
+      );
+    });
   }
 });

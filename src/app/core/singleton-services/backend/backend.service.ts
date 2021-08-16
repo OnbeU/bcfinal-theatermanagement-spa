@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { Movie } from './movie';
 import { ConfigService } from './../config/config.service';
@@ -19,6 +19,9 @@ export class BackendService {
 
   getMovies(): Observable<Movie[]> {
     const moviesUrl = `${this.baseUrl}/movies`;
+    console.log(`**** moviesUrl ${moviesUrl}`);
+
+    /// return of([]);
     return this.httpClient.get<Movie[]>(moviesUrl);
   }
 
