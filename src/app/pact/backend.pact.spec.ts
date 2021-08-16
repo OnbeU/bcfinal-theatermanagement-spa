@@ -31,7 +31,6 @@ describe('BackendService consumer-defined contracts', () => {
         port: 1234,
         spec: 2
       });
-      // setTimeout(done, 10000);
       provider.removeInteractions().then(done);
     });
 
@@ -67,10 +66,6 @@ describe('BackendService consumer-defined contracts', () => {
         .then(done, done.fail)
     });
 
-    // afterAll((done) => {
-    //   provider.finalize().then(done, done.fail)
-    // });
-
     it('should be created (by backend.pact.spec))', (done) => {
       expect(service).toBeTruthy();
       done();
@@ -81,44 +76,5 @@ describe('BackendService consumer-defined contracts', () => {
       done();
     });
 
-    // describe("when no movies", function () {
-    //   beforeAll((done) => {
-    //     provider
-    //       .addInteraction(
-    //         {
-    //           state: "There are no movies",
-    //           uponReceiving: "a request to list the movies",
-    //           withRequest: {
-    //             method: "GET",
-    //             path: "/api/movies",
-    //           },
-    //           willRespondWith: {
-    //             status: 200,
-    //             headers: {
-    //               "Content-Type": "application/json",
-    //             },
-    //             body: [],
-    //           },
-    //         }
-    //       )
-    //       .then(done, done.fail)
-    //   });
-
-    //   it("always succeeds", () => {
-    //     console.log(`********${provider.mockService.baseUrl}******************************`);
-    //   });
-
-      // it("has no movies", (done) => {
-      //   console.log(`********${provider.mockService.baseUrl}******************************`);
-      //   service.getMovies().subscribe(
-      //     movies => {
-      //       expect(movies).toEqual([]);
-      //       console.log('success!');
-      //       done();
-      //     },
-      //     error => done.fail(error)
-      //   );
-      // });
-    // });
   }
 });
