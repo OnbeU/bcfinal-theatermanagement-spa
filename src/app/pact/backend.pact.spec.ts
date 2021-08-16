@@ -1,9 +1,3 @@
-import { environment } from 'src/environments/environment';
-
-// Current state: This isn't going to work when multiple browser windows are
-// running in parallel. Will need to rethink. Probably will have to run this
-// as a one-off test.
-
 import { InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Movie } from '../core/singleton-services/backend/movie';
@@ -11,14 +5,16 @@ import { PactWeb } from '@pact-foundation/pact-web';
 import { Observable } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { fakeAsync, TestBed } from '@angular/core/testing';
+import { mockProvider } from '@ngneat/spectator';
+
 import { BackendService } from '../core/singleton-services/backend/backend.service';
 import { ConfigService } from '../core/singleton-services/config/config.service';
-import { mockProvider } from '@ngneat/spectator';
+import { environment } from 'src/environments/environment';
 
 describe('BackendService consumer-defined contracts', () => {
   if (!environment.singleTestRun)
   {
-    it('*** Skipping this test due to multiple test runners. ** This spec uses a global Pact server which cannot be shared by multiple test runners. To run this spec, do the singleRun thing.', () => {
+    it('*** Skipping this test due to multiple test runners. *** This spec uses a global Pact server which cannot be shared by multiple test runners. To run this spec: npm run singletestrun', () => {
       expect(environment.singleTestRun).toBeFalse();
     });
   }
@@ -76,12 +72,12 @@ describe('BackendService consumer-defined contracts', () => {
     // });
 
     it('should be created (by backend.pact.spec))', (done) => {
-      expect(service).not.toBeTruthy();
+      expect(service).toBeTruthy();
       done();
     });
 
     it('should have correct baseUrl', (done) => {
-      expect(service.baseUrl).toBe('/api');
+      expect(service.baseUrl).toBe('http://127.0.0.1:1234/api');
       done();
     });
 
