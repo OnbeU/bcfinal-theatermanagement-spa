@@ -5,7 +5,7 @@
 export const environment = {
   envName: 'Default',
   production: false,
-
+  singleTestRun: false,
   apiBaseUrl: '/api'
 };
 
