@@ -85,6 +85,7 @@ jobs:
           kubectl create configmap json-server-route-config --from-file=fake-backend/route.json -n ${{ steps.vars.outputs.url_tag }}
           sed "s/--REGISTRY_LOGIN_SERVER--/${{ secrets.REGISTRY_LOGIN_SERVER }}/g; s/--ROOT_URL--/fakeapi-${{ steps.vars.outputs.pr_url }}/g" fake-backend/deployment.yaml > fake-backend/deployment1.yaml
           kubectl apply -f fake-backend/deployment1.yaml -n ${{ steps.vars.outputs.url_tag }} 
+
          
     - name: publish Frontend App to AKS
       run: |
