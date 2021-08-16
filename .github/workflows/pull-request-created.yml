@@ -23,8 +23,8 @@ jobs:
          if [ -z "${url_tag_suffix}" ]; then
          url_tag_suffix=$(git rev-parse --short=7 ${{ github.sha }})
          fi
-         echo ::set-output name=url_tag::pr-${url_tag_suffix}-${{ env.APP_NAME }}
-         echo ::set-output name=pr_url::pr-${url_tag_suffix}-${{ env.APP_NAME }}.${{secrets.HOST_URL}}
+         echo ::set-output name=url_tag::pr-${url_tag_suffix}-${{ env.APP_NAME }}-${{secrets.TEAM_NAME}}
+         echo ::set-output name=pr_url::pr-${url_tag_suffix}-${{ env.APP_NAME }}-${{secrets.TEAM_NAME}}.${{secrets.HOST_URL}}
          echo  URL TAG Suffix -${url_tag_suffix}
     - name: 'echo version tags'
       id: echovars
@@ -47,8 +47,8 @@ jobs:
     - name: Updating BFF Url
       run: |
        echo "`jq '.apiBaseUrl="https://fakeapi-${{ steps.vars.outputs.pr_url }}"' src/assets/config.json`" > src/assets/config.json
-       echo "`jq '.envName="https://fakeapi-${{ steps.vars.outputs.pr_url }}"' src/assets/config.json`" > src/assets/config.json
-       echo "`jq '.production="Stage"' src/assets/config.json`" > src/assets/config.json
+       echo "`jq '.envName="Stage"' src/assets/config.json`" > src/assets/config.json
+       echo "`jq '.production=false' src/assets/config.json`" > src/assets/config.json
 
     - name: Build Docker Image
       run: |
