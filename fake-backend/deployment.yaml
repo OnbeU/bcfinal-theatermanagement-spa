@@ -65,9 +65,9 @@ kind: Ingress
 metadata:
   name: json-server-fake-api-app-gateway
   annotations:
-    kubernetes.io/ingress.class: azure/application-gateway
+    kubernetes.io/ingress.class: ingress
     nginx.ingress.kubernetes.io/use-regex: "true"
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
   - hosts:
