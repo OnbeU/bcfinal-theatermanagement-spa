@@ -86,7 +86,7 @@ jobs:
           sed "s/--REGISTRY_LOGIN_SERVER--/${{ secrets.REGISTRY_LOGIN_SERVER }}/g; s/--ROOT_URL--/fakeapi-${{ steps.vars.outputs.pr_url }}/g" fake-backend/deployment.yaml > fake-backend/deployment1.yaml
           kubectl apply -f fake-backend/deployment1.yaml -n ${{ steps.vars.outputs.url_tag }} 
 
-         
+
     - name: publish Frontend App to AKS
       run: |
          helm upgrade ${{ steps.vars.outputs.url_tag }} ./${{env.ACR_HELM_CHART_NAME}} \
@@ -103,8 +103,8 @@ jobs:
            --set ingress.hosts[0].paths[0].pathType=Prefix \
            --set ingress.tls[0].hosts[0]=${{ steps.vars.outputs.pr_url }}  \
            --set ingress.tls[0].secretName=tls-secret \
-           --set ingress.annotations."kubernetes\.io/ingress\.class"=azure/application-gateway \
-           --set ingress.annotations."cert-manager\.io/cluster-issuer"=letsencrypt \
+           --set ingress.annotations."kubernetes\.io/ingress\.class"=nginx \
+           --set ingress.annotations."cert-manager\.io/cluster-issuer"=letsencrypt-production \
            --set ingress.annotations."nginx\.ingress\.kubernetes\.io/rewrite-target"=$1 \
            --set-string ingress.annotations."nginx\.ingress\.kubernetes\.io/use-regex"="true" \
            --set livenessProbe.path=/\ \
