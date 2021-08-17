@@ -35,6 +35,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
+    concurrency: 1,                  // Run each browser's tests sequentially.
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],

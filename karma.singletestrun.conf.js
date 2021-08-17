@@ -23,6 +23,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
+    concurrency: 1,                  // Run each browser's tests sequentially.
     logLevel: config.LOG_ERROR,      // NOTE this was LOG_INFO
     autoWatch: false,                // NOTE this was true
     browsers: ['ChromeHeadlessCI'],  // NOTE this was ['Chrome']
@@ -35,7 +36,6 @@ module.exports = function (config) {
     singleRun: true,                 // NOTE this was false
     restartOnFileChange: false,      // NOTE this was true
     browserNoActivityTimeout: 40000, // NOTE this wasn't specified
-    concurrency: 1,                  // NOTE this wasn't specified
     pact: [{                         // NOTE this section was added
       cors: true,
       port: 1234,
