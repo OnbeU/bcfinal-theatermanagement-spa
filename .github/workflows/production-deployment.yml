@@ -1,11 +1,12 @@
 name: Production_Deployment
 on:
-  # Trigger the workflow on push
-  # but only for the main branch
-  push:
-    branches:
-      - main
- 
+  # # Trigger the workflow on push
+  # # but only for the main branch
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
 env:
   APP_NAME: theatermanagement-spa
   ACR_HELM_REPO_NAME: helm/apptemplate
@@ -25,9 +26,9 @@ jobs:
       run: |
          echo ::set-output name=url_tag::production-${{ env.APP_NAME }}-${{secrets.TEAM_NAME}}
          echo ::set-output name=pr_url::production-${{ env.APP_NAME }}-${{secrets.TEAM_NAME}}.${{secrets.HOST_URL}}
-         echo ::set-output name=pr_api_url::production-${{ env.BFF }}-${{secrets.TEAM_NAME}}.${{secrets.HOST_URL}} 
-         echo ::set-output name=random_tag_suffix::$(git rev-parse --short=7 ${{ github.sha }})-$RANDOM 
-        
+         echo ::set-output name=pr_api_url::production-${{ env.BFF }}-${{secrets.TEAM_NAME}}.${{secrets.HOST_URL}}
+         echo ::set-output name=random_tag_suffix::$(git rev-parse --short=7 ${{ github.sha }})-$RANDOM
+
 
     - name: 'echo version tags'
       id: echovars
@@ -35,7 +36,7 @@ jobs:
          echo  URL TAG -${{steps.vars.outputs.url_tag}}
          echo  PR URL-${{steps.vars.outputs.pr_url}}
          echo  random tag suffix-${{steps.vars.outputs.random_tag_suffix}}
-   
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
@@ -74,10 +75,10 @@ jobs:
     - name: Pull HELM chart
       run: |
          export HELM_EXPERIMENTAL_OCI=1
-         echo '${{ secrets.REGISTRY_PASSWORD }}' | helm registry login ${{ secrets.REGISTRY_LOGIN_SERVER }} --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin 
+         echo '${{ secrets.REGISTRY_PASSWORD }}' | helm registry login ${{ secrets.REGISTRY_LOGIN_SERVER }} --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin
          helm chart pull ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.ACR_HELM_REPO_NAME }}:latest
          helm chart export ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ env.ACR_HELM_REPO_NAME }}:latest
-    
+
     - name: Login to AKS
       run: |
           az aks get-credentials -n ${{ secrets.AKS_NAME }} -g ${{ secrets.AKS_RESOURCE_GROUP }} --admin
@@ -105,4 +106,4 @@ jobs:
            --set livenessProbe.path=/\ \
            --set readinessProbe.path=/\ \
 
-   
+
