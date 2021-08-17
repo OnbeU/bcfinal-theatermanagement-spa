@@ -9,17 +9,17 @@ import { ConfigService } from './../config/config.service';
   providedIn: 'root'
 })
 export class BackendService {
-  readonly baseUrl: string;
+  get apiBaseUrl(): string
+  {
+    return this.configService.apiBaseUrl;
+  }
 
   constructor(
     private httpClient: HttpClient,
-    private configService: ConfigService) {
-    this.baseUrl = configService.apiBaseUrl;
-  }
+    private configService: ConfigService) {}
 
   getMovies(): Observable<Movie[]> {
-    const moviesUrl = `${this.baseUrl}/movies`;
+    const moviesUrl = `${this.apiBaseUrl}/movies`;
     return this.httpClient.get<Movie[]>(moviesUrl);
   }
-
 }

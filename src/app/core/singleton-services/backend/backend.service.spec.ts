@@ -24,7 +24,8 @@ describe('BackendService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have correct baseUrl', () => {
-    expect(service.baseUrl).toBe('/api');
+
+  it('should have correct apiBaseUrl', () => {
+    expect(service.apiBaseUrl).toBe('/api');
   });
 });

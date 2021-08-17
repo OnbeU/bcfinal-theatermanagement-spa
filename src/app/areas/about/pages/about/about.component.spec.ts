@@ -15,7 +15,8 @@ describe('AboutComponent', () => {
       imports: [HttpClientTestingModule],
       providers: [
         mockProvider(ConfigService, {
-          apiBaseUrl: '/example-api-base-url'
+          apiBaseUrl: '/example-api-base-url',
+          production: false
         })
       ],
       declarations: [AboutComponent]
@@ -36,6 +37,6 @@ describe('AboutComponent', () => {
 
   it('should have appropriate default values', () => {
     expect(component.apiBaseUrl).toBe('/example-api-base-url');
-    expect(component.production).toBe('false');
+    expect(component.production).toBeFalse();
   });
 });

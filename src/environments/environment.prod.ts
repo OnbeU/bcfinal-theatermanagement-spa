@@ -1,6 +1,6 @@
 export const environment = {
   envName: 'Production',
   production: true,
-
-  apiBaseUrl: undefined
+  singleTestRun: false,
+  apiBaseUrl: undefined // Will be read from config.json
 };
