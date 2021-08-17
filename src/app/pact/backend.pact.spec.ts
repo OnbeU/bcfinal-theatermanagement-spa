@@ -1,5 +1,5 @@
 import { PactWeb } from '@pact-foundation/pact-web';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { mockProvider } from '@ngneat/spectator';
 
@@ -36,10 +36,10 @@ describe('BackendService consumer-defined contracts', () => {
 
     beforeEach((done) => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
+        imports: [HttpClientModule],
         providers: [
           mockProvider(ConfigService, {
-            apiBaseUrl: 'http://127.0.0.1:1234/api'
+            apiBaseUrl: 'http://localhost:1234/api'
           }),
           BackendService
         ]
@@ -59,11 +59,16 @@ describe('BackendService consumer-defined contracts', () => {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: [],
+              body: '[]',
             },
           }
         )
-        .then(done, done.fail)
+        .then(() =>
+          {
+            console.log('Interaction added');
+            done();
+          }
+          , done.fail)
     });
 
     afterAll((done) => {
@@ -71,25 +76,45 @@ describe('BackendService consumer-defined contracts', () => {
       provider.finalize().then(done, done.fail)
     });
 
-    it('should be created (by backend.pact.spec))', (done) => {
-      expect(service).toBeTruthy();
-      done();
-    });
+    // it('should be created (by backend.pact.spec))', (done) => {
+    //   expect(service).toBeTruthy();
+    //   done();
+    // });
 
-    it('should have correct baseUrl', (done) => {
-      expect(service.baseUrl).toBe('http://127.0.0.1:1234/api');
-      done();
-    });
+    // it('should have correct apiBaseUrl', (done) => {
+    //   expect(service.apiBaseUrl).toBe('http://localhost:1234/api');
+    //   done();
+    // });
 
-    it("has no movies", () => {
-      console.log(`********${provider.mockService.baseUrl}******************************`);
+    it("has no movies", (done) => {
+      console.log('------------- preparing');
 
       service.getMovies().subscribe(
         movies => {
           expect(movies).toEqual([]);
-          console.log('success!');
+          console.log('^^^^^^^^^^^^^ success!');
+          provider.finalize();
+          done();
+        }, error => {
+          console.log('vvvvvvvvvvvvv failure!');
+          done.fail(error);
         }
       );
+
+      // service.getMoviesAsJson().subscribe(
+      //   json => {
+      //     expect(json).not.toBeEmpty();
+      //     //expect(json.replace(/\s/g, "")).toEqual('[]');
+      //     console.log('^^^^^^^^^^^^^ success! json is ' + json);
+      //     provider.finalize();
+      //     done();
+      //   }, error => {
+      //     console.log('vvvvvvvvvvvvv failure!');
+      //     done.fail(error);
+      //   }
+      // );
+
+      console.log('------------- waiting');
     });
   }
 });

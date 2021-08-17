@@ -9,20 +9,41 @@ import { ConfigService } from './../config/config.service';
   providedIn: 'root'
 })
 export class BackendService {
-  readonly baseUrl: string;
+  get apiBaseUrl(): string
+  {
+    return this.configService.apiBaseUrl;
+  }
 
   constructor(
     private httpClient: HttpClient,
-    private configService: ConfigService) {
-    this.baseUrl = configService.apiBaseUrl;
-  }
+    private configService: ConfigService) {}
 
   getMovies(): Observable<Movie[]> {
-    const moviesUrl = `${this.baseUrl}/movies`;
+    const moviesUrl = `${this.apiBaseUrl}/movies`;
     console.log(`**** moviesUrl ${moviesUrl}`);
 
-    /// return of([]);
+    // this.httpClient.get<string>(moviesUrl)
+    // .subscribe(content => {
+    //   console.log(`**** content ${content}`);
+    // });
+
+    // return of([]);
     return this.httpClient.get<Movie[]>(moviesUrl);
+  }
+
+  getMoviesAsJson(): Observable<string> {
+    const moviesUrl = `${this.apiBaseUrl}/movies`;
+    console.log(`**** getMoviesAsJson moviesUrl ${moviesUrl}`);
+    var action = this.httpClient.get<string>(moviesUrl);
+    action.subscribe(
+      result => {
+        console.log('QQQQQQQQQQQ result is ' + result.toString());
+      },
+      err => {
+        console.log('QQQQQQQQQQQ err is ' + err.toString());
+      }
+    )
+    return action;
   }
 
 }

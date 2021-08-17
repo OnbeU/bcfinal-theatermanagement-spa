@@ -23,4 +23,9 @@ describe('BackendService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+
+  it('should have correct apiBaseUrl', () => {
+    expect(service.apiBaseUrl).toBe('/api');
+  });
 });
