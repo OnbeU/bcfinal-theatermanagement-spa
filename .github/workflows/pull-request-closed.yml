@@ -1,8 +1,9 @@
 name: Pull-Request-Closed
 on:
-  pull_request:
-    types: [closed]
- 
+  # pull_request:
+  #   types: [closed]
+  workflow_dispatch:
+
 env:
   APP_NAME: theatermanagement-spa
   ACR_HELM_REPO_NAME: helm/apptemplate
@@ -31,7 +32,7 @@ jobs:
       run: |
          echo  URL TAG -${{steps.vars.outputs.url_tag}}
          echo  PR URL-${{steps.vars.outputs.pr_url}}
-   
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
@@ -40,7 +41,7 @@ jobs:
     - name: Login to AKS
       run: |
           az aks get-credentials -n ${{ secrets.AKS_NAME }} -g ${{ secrets.AKS_RESOURCE_GROUP }} --admin
-    
+
     - name: Delete Helm Chart and K8s Namespace
       if: always()
       run: |
