@@ -64,7 +64,7 @@ jobs:
        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
        registry-username: ${{ secrets.REGISTRY_USERNAME }}
        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-       name: aci-${{env.APP_NAME}}
+       name: aci-${{env.APP_NAME}}-${{steps.vars.outputs.url_tag}}
        location: 'West US 2'
 
     - name: Pull HELM chart
@@ -80,6 +80,9 @@ jobs:
     
     - name: publish Fake API to AKS
       run: |
+          if kubectl get namespaces -o json | jq -r ".items[].metadata.name" | grep ${{ steps.vars.outputs.url_tag }};then
+             kubectl delete namespace ${{ steps.vars.outputs.url_tag }}
+          fi
           kubectl create namespace ${{ steps.vars.outputs.url_tag }}
           kubectl create configmap json-server-db-config --from-file=fake-backend/db.json -n ${{ steps.vars.outputs.url_tag }}
           kubectl create configmap json-server-route-config --from-file=fake-backend/route.json -n ${{ steps.vars.outputs.url_tag }}
